@@ -11,4 +11,6 @@ angular.module('ngcourse')
       vm.password=password;
     };
 
+    vm.login('Nick','test'); // temp dev login
+
 });
