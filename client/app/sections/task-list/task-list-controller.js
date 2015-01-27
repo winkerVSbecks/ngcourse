@@ -2,24 +2,18 @@
 
 angular.module('ngcourse')
 
-.controller('TaskListCtrl', function ($scope, $log, $window) {
-	var vm = this;
-    vm.numberOfTasks = 0;
+.controller('TaskListCtrl', function ($http,$scope, $log, $window) {
+    var vm = this;
+    vm.tasks = [];
 
-	vm.tasks = [
-    {
-      owner: 'alice',
-      description: 'Build the dog shed.'
-    },
-    {
-      owner: 'bob',
-      description: 'Get the milk.'
-    },
-    {
-      owner: 'alice',
-      description: 'Fix the door handle.'
-    }
-  ];
+    $http.get('http://ngcourse.herokuapp.com/api/v1/tasks')
+      .then(function(response) {
+        $log.info(response);
+        vm.tasks = response.data;
+      })
+      .then(null, function(error) {
+        $log.error(error);
+      });
 
     vm.addTask = function() {
       vm.numberOfTasks += 1;
