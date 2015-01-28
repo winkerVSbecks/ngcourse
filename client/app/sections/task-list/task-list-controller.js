@@ -8,7 +8,6 @@ angular.module('ngcourse')
     vm.tasks = [];
 
     vm.username= users.username;
-    $log.info(users);
 
     tasks.getTasks()
       .then(function(tasks) {

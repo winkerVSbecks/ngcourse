@@ -4,6 +4,7 @@
 
    
     <div ui-view="actionArea"></div>
+    <button ui-sref="tasks.add">Add a Task</button>
     <table>
         <tr>
             <th>Owner</th>
@@ -12,8 +13,10 @@
         <tr ng-repeat="task in taskList.tasks">
             <td>{{task.owner}}</td>
             <td>{{task.description}}</td>
-            <td><a ng-show="task.can.edit" ui-sref="tasks.details({_id: task._id})">edit</a>
+            <td>
+                <a ui-sref="tasks.details({_id: task._id})">edit</a>
             </td>
         </tr>
     </table>
+    <button ui-sref="tasks.add">Add a Task</button>
 </div>

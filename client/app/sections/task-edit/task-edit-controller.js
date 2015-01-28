@@ -2,6 +2,23 @@
 
 angular.module('ngcourse')
 
-.controller('TaskEditCtrl', function () {
+.controller('TaskEditCtrl', function (tasks, router, $log, $stateParams) {
+	var vm = this;
+
+	var id= $stateParams._id;
+
+	tasks.getTask(id).then(function(task){
+		vm.task = task;
+	});
+
+	vm.updateTask = function(task){
+		tasks.saveTask(task).then(function(){
+			router.goToTaskList();
+		})
+	};
+
+	vm.cancel = function(){
+		router.goToTaskList();
+	};
 
 });

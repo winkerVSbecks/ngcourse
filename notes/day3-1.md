@@ -1,6 +1,4 @@
-The link function is a bit complicated due to the need to display the task count for an arbitrary username.  If I come up with a simpler approach soon I’ll circle back.
-
-I’ll reply in a few minutes with the last part.
+The link function is a bit complicated due to the need to display the task count for an arbitrary username. 
 
 Ex 2: Directives:
 ---
