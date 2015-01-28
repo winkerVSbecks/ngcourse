@@ -1,7 +1,8 @@
 angular.module('ngcourse', [
 	'ngcourse.tasks', 
 	'ngcourse.server',
-	'ngcourse.router'
+	'ngcourse.router',
+	'ngcourse.users'
 ])
 
 .run(function ($log) {

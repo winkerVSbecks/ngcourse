@@ -9,9 +9,9 @@ angular.module('ngcourse')
     vm.login = function(username, password) {
       vm.isAuthenticated = true;
       vm.username = username;
-      vm.password=password;
+      vm.password=password;      
       
-      $rootScope.username= username;
+      $rootScope.username= username; // this is a bad practice
 
       $state.go('tasks');
     };
