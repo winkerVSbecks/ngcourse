@@ -14,6 +14,10 @@ angular.module('ngcourse')
       })
       .then(null, $log.error);
 
+    vm.getUserDisplayName= function(name){
+      return name;
+    }
+    
     vm.numberOfTasks = 0;
     vm.addTask = function() {
       vm.numberOfTasks += 1;
