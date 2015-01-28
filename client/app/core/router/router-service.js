@@ -22,5 +22,13 @@
     .state('account', {
       url: '/my-account',
       template: 'my account'
-    });      
+    })
+    .state('tasksDetailById', {
+      url: '/tasks/{_id}',
+      template: 'task details with id'
+    })
+    .state('tasksDetailByRegex', {
+      url: '/tasks/{_id:[A-Za-z0-9-_]{0,}}',
+      template: 'task details with regex'
+    });
   });
