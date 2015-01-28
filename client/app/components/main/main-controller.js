@@ -2,7 +2,7 @@
 
 angular.module('ngcourse')
 
-.controller('MainCtrl', function ($scope, $log, $state, $rootScope) {
+.controller('MainCtrl', function ($scope, $log, $state, $rootScope, users) {
 	var vm = this;
     vm.isAuthenticated = false;
     console.log("MainCtrl called");
@@ -11,7 +11,7 @@ angular.module('ngcourse')
       vm.username = username;
       vm.password=password;      
       
-      $rootScope.username= username; // this is a bad practice
+      users.login(username, password);
 
       $state.go('tasks');
     };

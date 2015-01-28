@@ -2,10 +2,13 @@
 
 angular.module('ngcourse')
 
-.controller('TaskListCtrl', function (tasks, $http, $scope, $log, $window) {
+.controller('TaskListCtrl', function (tasks, $http, $scope, $log, $window, users) {
 
     var vm = this;
     vm.tasks = [];
+
+    vm.username= users.username;
+    $log.info(users);
 
     tasks.getTasks()
       .then(function(tasks) {

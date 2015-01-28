@@ -4,7 +4,6 @@ angular.module('ngcourse', [
 	'ngcourse.router',
 	'ngcourse.users'
 ])
-
 .run(function ($log) {
   $log.info('Ready to go.');
 });
