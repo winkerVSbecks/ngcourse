@@ -16,6 +16,6 @@ angular.module('ngcourse')
       $state.go('tasks');
     };
 
-    // vm.login('Nick','test'); // temp dev login
+    // vm.login('bob', 'bob@bob', 'test'); // temp dev login
 
 });

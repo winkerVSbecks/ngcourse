@@ -8,8 +8,21 @@
     Enter username: <input
       ng-model="loginForm.username"
       name="username"
+      input-white-list white-list="['alice', 'bob', 'dan']"
+      ng-pattern="/^[a-z]+$/"
       required>
     <br>
+
+    <span ng-show="loginForm.form.username.$error.whiteList">
+      Username must be one of 'alice', 'bob', or 'dan'.
+    </span><br>    
+
+    Email: <input type="email" name="email" ng-model="loginForm.email">
+    </input><br>
+
+    <span ng-show="loginForm.form.email.$invalid">
+      Please enter a valid email address.
+    </span>
 
     Password: <input
       type="password"
@@ -21,5 +34,14 @@
     <button
       ng-click="main.login(loginForm.username, loginForm.password)"
       ng-disabled="loginForm.form.$invalid">Login</button>
+
+    <p>Error: {{ loginForm.form.username.$error }}</p>
+
+    <p>
+      Is form valid: {{ !loginForm.form.$invalid }}<br>
+      Is username valid: {{ !loginForm.form.username.$invalid }}<br>
+      Is password valid: {{ !loginForm.form.password.$invalid }}
+    </p>
+
   </form>
 </div>
