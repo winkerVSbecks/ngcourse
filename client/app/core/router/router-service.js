@@ -10,6 +10,11 @@ angular.module('ngcourse.router', [
   $locationProvider.html5Mode(false);
 
   $stateProvider
+    .state('profile', {
+      url: '/profile',
+      controller: 'ProfileEditCtrl as profile',
+      templateUrl: '/app/sections/profile/profile-edit.html'
+    })
     .state('tasks', {
       url: '/tasks',
       views: {

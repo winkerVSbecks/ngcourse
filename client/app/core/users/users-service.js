@@ -23,6 +23,7 @@ angular.module('ngcourse.users', [
   };
 
   service.getUserByUsername = function(username) {
+    // debugger
     return byUserName[username];
   };
 
@@ -30,6 +31,16 @@ angular.module('ngcourse.users', [
     var user = service.getUserByUsername(username);
     return user.displayName;
   };
+
+  service.getUser = function (id) {
+    return koast.getResource('users', {_id: id });
+  }
+
+  service.getUserByUsername2 = function (username) {
+    return koast.getResource('users', {'username': username });
+  }
+
+
 
   return service;
 });
