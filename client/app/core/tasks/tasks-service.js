@@ -1,33 +1,36 @@
-angular.module('ngcourse.tasks',['ngcourse.server'])
-.factory('tasks', function(server, $log) {
+'use strict';
+
+angular.module('ngcourse.tasks', [ 'koast' ])
+.factory('tasks', function (koast) {
   var service = {};
 
-  service.getTask = function (id) {
-    return server.get('/api/v1/tasks/' + id).then(function(taskArray){
-      return taskArray[0];
+  function makeAuthenticatedMethod(functionToDelay) {
+    return function () {
+      var myArgs = arguments;
+      return koast.user.whenAuthenticated()
+        .then(function () {
+          return functionToDelay.apply(service, myArgs);
+        });
+    };
+  }
+
+  service.getTasks = makeAuthenticatedMethod(function () {
+    return koast.queryForResources('tasks');
+  });
+
+  service.addTask = makeAuthenticatedMethod(function (task) {
+    return koast.createResource('tasks', task)
+  });
+
+  service.updateTask = makeAuthenticatedMethod(function (task) {
+    return task.save();
+  });
+
+  service.getTask = makeAuthenticatedMethod(function (id) {
+    return koast.getResource('tasks', {
+      _id: id
     });
-  };
-
-  service.getTasks = function () {
-    return server.get('/api/v1/tasks')
-  };
-
-  service.saveTask = function (task) {
-    return server.put('/api/v1/tasks', task._id, task);
-  };
-
-  service.newTask = function (task) {
-    return server.post('/api/v1/tasks', task);
-  };
-
-  service.getMyTasks = function () {
-    return service.getTasks()
-    .then(function(tasks) {
-      return filterTasks(tasks, {
-        owner: user.username
-      });
-    });
-  };
+  });
 
   return service;
 });

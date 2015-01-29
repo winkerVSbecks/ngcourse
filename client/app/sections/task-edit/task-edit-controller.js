@@ -12,7 +12,7 @@ angular.module('ngcourse')
 	});
 
 	vm.updateTask = function(task){
-		tasks.saveTask(task).then(function(){
+		tasks.updateTask(task).then(function(){
 			router.goToTaskList();
 		})
 	};

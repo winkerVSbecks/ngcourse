@@ -1,5 +1,5 @@
 <div>
-    {{taskList.username}}, we've got {{taskList.tasks.length}} tasks
+    We've got {{taskList.tasks.length}} tasks
     <br/>
 
    
@@ -14,7 +14,7 @@
             <td>{{task.owner}}</td>
             <td>{{task.description}}</td>
             <td>
-                <a ui-sref="tasks.details({_id: task._id})">edit</a>
+                <a ng-show="task.can.edit" ui-sref="tasks.details({_id: task._id})">edit</a>
             </td>
         </tr>
     </table>

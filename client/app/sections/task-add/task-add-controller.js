@@ -7,7 +7,7 @@ angular.module('ngcourse')
 
 
 	vm.save = function(task){
-		tasks.newTask(task).then(function(){
+		tasks.addTask(task).then(function(){
 			router.goToTaskList();
 		})
 	};
