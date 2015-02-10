@@ -2,7 +2,7 @@
 
 angular.module('ngcourse')
 
-.controller('TaskListCtrl', function($log, $http, $q) {
+.controller('TaskListCtrl', function($log, tasks) {
   var vm = this;
 
   vm.numberOfTasks = 0;
@@ -20,17 +20,11 @@ angular.module('ngcourse')
     }
   };
 
-  $http.get('http://ngcourse.herokuapp.com/api/v1/tasks')
-    .then(function(response) {
-      $log.info(response);
-      return response.data;
-    })
+  tasks.getTasks()
     .then(function(tasksArray) {
       vm.tasks = tasksArray;
     })
-    .then(null, function(error) {
-      $log.error(error);
-    });
+    .then(null, $log.error);
 
   vm.addTask = function() {
     vm.numberOfTasks += 1;
