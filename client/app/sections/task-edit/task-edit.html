@@ -1,4 +1,17 @@
-<input ng-model="taskEdit.task.owner" placeholder="Owner" /> <br/>
-<input ng-model="taskEdit.task.description" placeholder="Description"/> <br/>
-<button ng-click="taskEdit.updateTask(taskEdit.task)">Update</button>
-<button ng-click="taskEdit.cancel()">Cancel</button>
+<form name="taskEdit.editForm" novalidate>
+  <input
+    ng-model="taskEdit.task.owner"
+    placeholder="Owner"
+    required/> <br/>
+
+  <input
+    ng-model="taskEdit.task.description"
+    placeholder="Description"
+    ng-maxlength="50"
+    required/> <br/>
+
+  <button
+    ng-click="taskEdit.updateTask(taskEdit.task)"
+    ng-disabled="taskEdit.editForm.$invalid">Update</button>
+  <button ng-click="taskEdit.cancel()">Cancel</button>
+</form>

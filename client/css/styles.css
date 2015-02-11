@@ -16,11 +16,11 @@ body {
   line-height: 200%;
 }
 
-.login input.ng-invalid.ng-touched {
+input.ng-invalid.ng-touched {
   background-color: #FDD;
 }
 
-.login input.ng-valid.ng-touched {
+input.ng-valid.ng-touched {
   background-color: #DFD;
 }
 
