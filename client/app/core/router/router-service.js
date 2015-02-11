@@ -4,10 +4,23 @@ angular.module('ngcourse.router', [
   'ui.router'
 ])
 
-.config(function () {
+.config(function (
+  $stateProvider,
+  $urlRouterProvider,
+  $locationProvider) {
 
-})
+    $urlRouterProvider.otherwise('/tasks');
 
-.factory('router', function () {
+    $locationProvider.html5Mode(false);
 
+    $stateProvider
+    .state('tasks', {
+      url: '/tasks',
+      controller: 'TaskListCtrl as taskList',
+      templateUrl: '/app/sections/task-list/task-list.html'
+    })
+    .state('tasksDetail', {
+      url: '/tasks/{_id}',
+      template: 'task details'
+    });
 });

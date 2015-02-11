@@ -10,6 +10,10 @@ angular.module('ngcourse')
   vm.sortColumnName = 'owner';
   vm.sortColumnReversed = false;
 
+  vm.getUserDisplayName = function(name){
+    return name;
+  };
+
   vm.setSortColumn = function(columnName) {
     if (columnName === vm.sortColumnName) {
       vm.sortColumnReversed = !vm.sortColumnReversed;
