@@ -2,7 +2,7 @@
 
 angular.module('ngcourse')
 
-.controller('MainCtrl', function() {
+.controller('MainCtrl', function($state) {
   var vm = this;
   vm.isAuthenticated = false;
 
@@ -10,5 +10,6 @@ angular.module('ngcourse')
     vm.isAuthenticated = true;
     vm.username = username;
     vm.password=password;
+    $state.go('tasks');
   };
 });

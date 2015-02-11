@@ -1,9 +1,5 @@
 <div>
-    {{main.userDisplayName}}, we've got {{taskList.tasks.length}} tasks
-    <br/>
-
-
-    <div ui-view="actionArea"></div>
+  <div ui-view="actionArea"></div>
     <table>
         <tr>
             <th><a href="" ng-click="taskList.setSortColumn('owner')">Owner</a></th>
@@ -12,8 +8,7 @@
         <tr ng-repeat="task in taskList.tasks | orderBy:taskList.sortColumnName:taskList.sortColumnReversed">
             <td>{{taskList.getUserDisplayName(task.owner)}}</td>
             <td>{{task.description}}</td>
-            <td><a ng-show="task.can.edit" ui-sref="tasks.details({_id: task._id})">edit</a>
-            </td>
+            
         </tr>
     </table>
 </div>
