@@ -33,7 +33,41 @@ describe('tasks service', function () {
     $provide.service('$q', function() {
       return Q;
     });
+
+    // Mock user service
+    $provide.service('users', function() {
+      var service = {};
+
+      service.getUsers = function() {
+        return Q.when([
+          {
+              _id: "54d144943eee1b3eafe86a70",
+              username: "alice",
+              displayName: "Alice Beeblebrox",
+          }
+        ]);
+      };
+
+      return service;
+    });
   }));
+
+  it('should fail to create a task with a bad owner', function() {
+    var badTask = {
+      owner: 'Dr. Evil', // Doesn't exist in our user database.
+      description: 'Take over the world'
+    };
+
+    var tasks = getService('tasks');
+    var failed = false;
+    return tasks.createTask(badTask)
+      .then(null, function(err) {
+        failed = true;
+      })
+      .finally(function() {
+        expect(failed).to.be.true;
+      });
+  });
 
   it('should get tasks', function() {
     var tasks = getService('tasks');

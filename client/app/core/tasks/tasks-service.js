@@ -2,7 +2,7 @@
 
 angular.module('ngcourse.tasks', ['ngcourse.server'])
 
-.factory('tasks', function(server, $log) {
+.factory('tasks', function(server, $log, users, $q) {
   var service = {};
 
   var taskPromise;
@@ -12,7 +12,21 @@ angular.module('ngcourse.tasks', ['ngcourse.server'])
   };
 
   service.createTask = function (task) {
-    return server.post('/api/v1/tasks', task);
+    return users.getUsers()
+      .then(function(userList) {
+        var foundIt = false;
+        userList.forEach(function(user) {
+          if(user.username === task.owner) {
+            foundIt = true;
+          }
+        });
+
+        if (foundIt) {
+            return server.post('/api/v1/tasks', task);
+        }
+
+        return $q.reject(new Error('Unknown owner'));
+      });
   };
 
   return service;
