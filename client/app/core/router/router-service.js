@@ -16,16 +16,30 @@ angular.module('ngcourse.router', [
     $stateProvider
       .state('home', {
         url: '/',
-        controller: 'MainCtrl as main',
-        templateUrl: '/app/components/main/main.html'
+
+        views: {
+          '': {
+            controller: 'MainCtrl as main',
+            templateUrl: '/app/components/main/main.html'
+          }
+        }
       })
       .state('tasks', {
         url: '/tasks',
-        controller: 'TaskListCtrl as taskList',
-        templateUrl: '/app/sections/task-list/task-list.html'
+        views: {
+          '': {
+            controller: 'TaskListCtrl as taskList',
+            templateUrl: '/app/sections/task-list/task-list.html'
+          }
+        }
       })
-      .state('tasksDetail', {
-        url: '/tasks/{_id}',
-        template: 'task details'
+      .state('tasks.detail', {
+        url: '/{_id}',
+        views: {
+          'actionArea@tasks': {
+            controller: 'TaskEditCtrl as taskEdit',
+            templateUrl: '/app/sections/task-edit/task-edit.html'
+          }
+        }
       });
 });

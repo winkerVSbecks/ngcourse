@@ -11,7 +11,15 @@ angular.module('ngcourse.tasks', ['ngcourse.server'])
     return taskPromise;
   };
 
+  service.getTask = function (id) {
+    return server.get('/api/v1/tasks/' + id)
+      .then(function(response) {
+        return response[0];
+      });
+  };
+
   service.createTask = function (task) {
+    taskPromise = null;
     return users.getUsers()
       .then(function(userList) {
         var foundIt = false;
@@ -28,6 +36,11 @@ angular.module('ngcourse.tasks', ['ngcourse.server'])
         return $q.reject(new Error('Unknown owner'));
       });
   };
+
+  service.updateTask = function(task) {
+    taskPromise = null;
+    return server.put('/api/v1/tasks', task._id, task);
+  }
 
   return service;
 });

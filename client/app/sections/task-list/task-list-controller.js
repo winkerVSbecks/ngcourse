@@ -2,7 +2,7 @@
 
 angular.module('ngcourse')
 
-.controller('TaskListCtrl', function($log, tasks) {
+.controller('TaskListCtrl', function($log, tasks, $state) {
   var vm = this;
 
   vm.numberOfTasks = 0;
