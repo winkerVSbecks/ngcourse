@@ -2,7 +2,7 @@
 
 angular.module('ngcourse')
 
-.controller('TaskListCtrl', function($log, tasks, $state) {
+.controller('TaskListCtrl', function($log, tasks, $state, users) {
   var vm = this;
 
   vm.numberOfTasks = 0;
@@ -10,8 +10,8 @@ angular.module('ngcourse')
   vm.sortColumnName = 'owner';
   vm.sortColumnReversed = false;
 
-  vm.getUserDisplayName = function(name){
-    return name;
+  vm.getUserDisplayName = function(username){
+    return users.getUserDisplayName(username);
   };
 
   vm.setSortColumn = function(columnName) {

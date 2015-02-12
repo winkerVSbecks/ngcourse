@@ -19,8 +19,11 @@
       required>
     <br>
 
+    <p>{{main.errorMessage}}</p>
+
     <button
       ng-click="main.login(loginForm.username, loginForm.password)"
       ng-disabled="loginForm.form.$invalid">Login</button>
+
   </form>
 </div>

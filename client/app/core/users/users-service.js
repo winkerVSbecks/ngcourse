@@ -1,22 +1,44 @@
 'use strict';
 
-angular.module('ngcourse.users', [])
+angular.module('ngcourse.users', [ 'koast' ])
 
-.factory('users', function (server) {
-    var service = {};
+.factory('users', function (koast) {
+  var service = {};
 
-    var userPromise;
-    service.getUsers = function () {
-      userPromise = userPromise || server.get('/api/v1/users');
-      return userPromise;
-    };
+  var byUserName = {};
+  var usersPromise = koast.user.whenAuthenticated()
+    .then(function () {
+      return koast.queryForResources('users')
+        .then(function (userArray) {
+          service.all = userArray;
+          userArray.forEach(function(user) {
+            if (user.username) {
+              byUserName[user.username] = user;
+            }
+          });
+        });
+    });
 
-    service.username= null;
-    service.password= null;
-    service.login= function(name, password){
-      service.username=name;
-      service.password=password;
-    };
+  service.whenReady = function () {
+    return usersPromise;
+  };
 
-    return service;
+  service.getUserByUsername = function(username) {
+    return byUserName[username];
+  };
+
+  service.getUserDisplayName = function(username) {
+    if (!username) {
+      return '';
+    }
+
+    var user = service.getUserByUsername(username);
+    if (!user) {
+      return username;
+    }
+
+    return user.displayName;
+  };
+
+  return service;
 });

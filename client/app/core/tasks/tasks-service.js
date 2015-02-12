@@ -1,24 +1,31 @@
 'use strict';
 
-angular.module('ngcourse.tasks', ['ngcourse.server'])
+angular.module('ngcourse.tasks', ['koast'])
 
-.factory('tasks', function(server, $log, users, $q) {
+.factory('tasks', function(koast, $log, users, $q) {
   var service = {};
 
-  var taskPromise;
-  service.getTasks = function () {
-    taskPromise = taskPromise || server.get('/api/v1/tasks');
-    return taskPromise;
-  };
+  function makeAuthenticatedMethod(functionToDelay) {
+    return function () {
+      var myArgs = arguments;
+      return koast.user.whenAuthenticated()
+        .then(function () {
+          return functionToDelay.apply(service, myArgs);
+        });
+    };
+  }
 
-  service.getTask = function (id) {
-    return server.get('/api/v1/tasks/' + id)
-      .then(function(response) {
-        return response[0];
-      });
-  };
+  service.getTasks = makeAuthenticatedMethod(function () {
+    return koast.queryForResources('tasks');
+  });
 
-  service.createTask = function (task) {
+  service.getTask = makeAuthenticatedMethod(function (id) {
+    return koast.getResource('tasks', {
+      _id: id
+    });
+  });
+
+  service.createTask = makeAuthenticatedMethod(function (task) {
     taskPromise = null;
     return users.getUsers()
       .then(function(userList) {
@@ -30,17 +37,16 @@ angular.module('ngcourse.tasks', ['ngcourse.server'])
         });
 
         if (foundIt) {
-            return server.post('/api/v1/tasks', task);
+          return koast.createResource('tasks', task);
         }
 
         return $q.reject(new Error('Unknown owner'));
       });
-  };
+  });
 
-  service.updateTask = function(task) {
-    taskPromise = null;
-    return server.put('/api/v1/tasks', task._id, task);
-  }
+  service.updateTask = makeAuthenticatedMethod(function(task) {
+    return task.save();
+  });
 
   return service;
 });
