@@ -7,12 +7,12 @@ module.exports = function(config) {
       '**/*.html': 'ng-html2js'
     },
     exclude: ['node_modules'],
-    reporters: ['progress'],
+    reporters: ['story'],
     port: 9999,
     colors: true,
     logLevel: config.LOG_ERROR,
     autoWatch: true,
-    browsers: ['Chrome'], // Alternatively: 'PhantomJS'
+    browsers: ['PhantomJS'], // Alternatively: 'PhantomJS'
     captureTimeout: 6000,
     singleRun: false
   });
