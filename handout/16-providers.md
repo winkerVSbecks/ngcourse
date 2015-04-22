@@ -105,7 +105,7 @@ might as well just use `.factory` in this case. However, use of `.provider`
 allows us to add configuration methods. In this case, let's add a method
 `.addSection`, which will add a set of states that would all be appended to
 the same parent, defining a section of the application. With this approach,
-different section of our applcation can define their substates without
+different section of our application can define their substates without
 stomping on each other's states.
 
 ```javascript

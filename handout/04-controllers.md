@@ -278,7 +278,7 @@ We'll need the following in the controller:
 
 ## Splitting Up the Controllers
 
-This controller is getting unweildy. Let's split it into two. Our HTML:
+This controller is getting unwieldy. Let's split it into two. Our HTML:
 
 ```html
   <div ng-controller="MainCtrl">
@@ -388,7 +388,7 @@ use `$apply`.
 To understand why `$apply` is rarely needed, let's talk a bit about Angular's
 "digest cycle".
 
-Developers somtimes use `$apply` is to "apply" changes to the scope introduced
+Developers sometimes use `$apply` is to "apply" changes to the scope introduced
 in a function called inside `setTimeout()`. A better solution, however, is to
 never use `setTimeout()` in your Angular code.
 
