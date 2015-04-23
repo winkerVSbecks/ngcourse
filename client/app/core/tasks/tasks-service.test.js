@@ -62,7 +62,7 @@ describe('tasks service', function () {
       }); 
   });
 
-  it('should get loaded', function() {
+  xit('should get loaded', function() {
     var tasks = getService('tasks');
     return tasks.getMyTasks()
       .then(function(tasksArray) {

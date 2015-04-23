@@ -10,6 +10,9 @@
   </head>
   <body ng-app="ngcourse">
 
+    Hello
+    <img src="https://placekitten.com/g/20/30">
+
     <div ng-controller="MainCtrl as main">
       <div ng-hide="main.isAuthenticated" ng-controller="LoginFormCtrl as loginForm">
         Enter username: <input ng-model="loginForm.username"/><br/>
@@ -18,15 +21,7 @@
       </div>
       <hr>
       <div ng-if="main.isAuthenticated" ng-controller="TaskListCtrl as taskList">
-        Hello, {{main.username}}!
-        You've got {{taskList.numberOfTasks}} tasks<br/>
-        <button ng-click="taskList.addTask()">Add task</button><br>
-        <table>
-            <tr ng-repeat="task in taskList.tasks">
-              <td>{{task.owner}}</td>
-              <td>{{task.description}}</td>
-            </tr>
-        </table>
+        <div ui-view></div>
       </div>
     </div>
 

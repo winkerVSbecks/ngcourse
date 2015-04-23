@@ -5,7 +5,9 @@ angular.module('ngcourse.api-constants', [])
 
 angular.module('ngcourse', [
   'ngcourse.tasks',
-  'ngcourse.server'
+  'ngcourse.server',
+  'ngcourse.router'
 ])
+
 
 

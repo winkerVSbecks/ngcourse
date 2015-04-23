@@ -4,7 +4,8 @@ angular.module('ngcourse')
 
 .controller('MainCtrl', function MainCtrl($log) {
   var vm = this;
-  vm.username = 'Cosmin';
+  vm.username = 'yuri';
+  vm.userDisplayName = 'Yuri';
   vm.isAuthenticated = true;
   // vm.isAuthenticated = true;
   vm.login = function(username, password) {
