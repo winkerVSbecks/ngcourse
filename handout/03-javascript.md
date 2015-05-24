@@ -1,6 +1,6 @@
 # Part 3: JavaScript for AngularJS Developers
 
-JavaScript is an untyped, interpreted programming language that can accomodate
+JavaScript is an untyped, interpreted programming language that can accommodate
 a variety of  programming paradigms. Among other things, a lot of modern
 JavaScript code heavily leverages functional programming style. The
 combination of weak typing and functional methods can make JavaScript code a
@@ -191,7 +191,7 @@ always be careful not to create them unintentionally.
 
 The only way to create local variables in JavaScript is to define them inside
 a function. Doing so, however, requires defining a function. If we were to use
-a function declaration, we would end up poluting the global name space with
+a function declaration, we would end up polluting the global name space with
 the function itself.
 
 Consider this example:

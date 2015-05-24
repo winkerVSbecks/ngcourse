@@ -211,7 +211,7 @@ the promise to resolve.
           .then(function (tasks) {
             // Assertions thrown here will result to a failed promise downstream.
             expect(tasks).to.be.an.array;
-            // Remember to call done(), othewise the test will time out (and
+            // Remember to call done(), otherwise the test will time out (and
             // fail).
             done();
           })
@@ -268,7 +268,7 @@ our dependencies.
           .then(function (tasks) {
             // Assertions thrown here will result to a failed promise downstream.
             expect(tasks.length).to.equal(1);
-            // Remember to call done(), othewise the test will time out (and
+            // Remember to call done(), otherwise the test will time out (and
             // fail).
             done();
           })

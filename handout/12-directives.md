@@ -220,8 +220,8 @@ convention, we call them "scope", "element" and "attrs".
 
 ## Dependency Injection
 
-If we do want to do dependency injectin with a directive (and we usually do),
-we can do that using the function definiting the directive:
+If we do want to do dependency injection with a directive (and we usually do),
+we can do that using the function defining the directive:
 
 ```javascript
   .directive('ngcUser',
@@ -339,7 +339,7 @@ a controller. We can let the user attach a listener to this event by setting
 When the user gets banned (from inside the directive), `handleBan(user)` will
 get called.
 
-To acheive this, we would then define the directive as follows:
+To achieve this, we would then define the directive as follows:
 
 ```javascript
 

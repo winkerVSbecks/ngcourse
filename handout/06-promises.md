@@ -33,7 +33,7 @@ A few problems with that. One is the "Pyramid of Doom":
 
 And this is without any error handling! A larger problem, though: hard to decompose.
 
-The essense of the problem is that this pattern requires us to specify the
+The essence of the problem is that this pattern requires us to specify the
 task and the callback at the same time. In contrast, promises allow us to
 specify and dispatch the request in one place:
 

@@ -347,7 +347,7 @@ But again, let's wrap it:
 ## Update Param Without a Reload
 
 If we want to change the value of the parameters _without_ triggering a state
-transition, we need to update the values in thre three different places where
+transition, we need to update the values in three different places where
 the UI route keeps them.
 
 ```javascript
