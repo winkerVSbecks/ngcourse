@@ -26,7 +26,8 @@ var parts = [
   '19-unit-testing-controllers-and-directives.md',
   '20-gulp.md',
   '21-sublime.md',
-  '22-continuous-integration.md'
+  '22-continuous-integration.md',
+  '23-advanced-directives.md'
 ];
 
 // Synchronous highlighting with highlight.js

@@ -177,62 +177,78 @@ Create a new file, `app/core/users/user-directive.js`:
         restrict: 'E', // vs 'A', 'AE'
         replace: true,
         scope: {}, // vs 'true', 'null'
-        templateUrl:'/app/components/users/user.html'
+        templateUrl: '/app/components/users/user.html'
       };
     }
   )
 ```
-
-## Linking
+## Directives with Controllers
 
 To make the directive do anything remotely interesting we would usually need
-to provide a "link" function:
+to implement a controller for it:
 
-```javascript
-  .directive('ngcUser',
-    function () {
-      var directive = {
-        restrict: 'E',
-        replace: true,
-        scope: {},
-        templateUrl: '/user/user.html'
-      };
-      directive.link = function(scope, element, attrs) {
-        ...
-      };
-      return directive;
-    }
-  )
+```javascript  
+  .controller('NgcUserDirectiveCtrl', function () {
+    var vm = this;
+    vm.userDisplayName = 'Some Name';
+  })
+
+  .directive('ngcUser', function () {
+    return {
+      restrict: 'E',
+      replace: true,
+      scope: {},
+      templateUrl: '/app/components/users/user.html',
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
+  ...
+```
+A few things are going on here, `controller: 'NgcUserDirectiveCtrl'` provides a 
+reference to the controller function defined on the module. 
+
+Then `controllerAs: 'ngcUserCtrl'` gives a name to controller's scope so as to 
+refer to its properties using this name within the template.
+
+i.e.
+
+```html
+  <span>Hello, {{ ngcUserCtrl.userDisplayName }}.</span>
 ```
 
-The directive's link function is in some ways similar to the function that
-defines a controller or a service. There is an important caveat, however. The
-link function does not do dependency injection. Instead, its arguments get
-passed to it by position:
+Finally, the `bindToController: true`, binds the component's properties to the 
+controller rather than the scope. 
 
-1. The first argument is the directive's scope.
-2. The second argument is the directive's element.
-3. The third argument is an object of attributes (we'll get to that later).
 
-There are a few more arguments, but we'll stick with those three. Those three
-arguments are passed by position, so we can call them whatever we want. By
-convention, we call them "scope", "element" and "attrs".
-
-## Dependency Injection
-
-If we do want to do dependency injection with a directive (and we usually do),
-we can do that using the function defining the directive:
+Note that in the above example the controller is provided by name, but it is also
+possible to provide the controller function inline
 
 ```javascript
-  .directive('ngcUser',
-    function (users) {
-      ...
-    }
-  );
+  ...
+
+  .directive('ngcUser', function () {
+    return {
+      restrict: 'E',
+      replace: true,
+      scope: {},
+      templateUrl: '/app/components/users/user.html',
+      controller: function () {
+        var vm = this;
+        vm.userDisplayName = 'Some Name';
+      },
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
+  ...
 ```
 
-This way 'users' service will be injected and available throughout the
-directive, including inside the link function.
+In this case you end up hiding your controller which makes it harder to
+call in unit tests.
 
 ## External Communication: Services
 
@@ -243,17 +259,26 @@ There are a few ways of doing this, but our best approach is often to rely on
 services at least for a large part of that communication.
 
 ```javascript
-  .directive('ngcUser',
-    function (users) {
-      ...
-      directive.link = function(scope, element, attrs) {
-        scope.name = users.getName();
-        ...
-      };
+  .controller('NgcUserDirectiveCtrl', function (users) {
+    var vm = this;
+    vm.userDisplayName = users.getName();
     ...
-    }
-  )
+  })
+
+  .directive('ngcUser', function () {
+    return {
+      ...
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
+  ...
 ```
+
+We can use everything we learned so far about dependency injection to inject
+services into our directive's controller.
 
 ## Using Attributes
 
@@ -269,12 +294,25 @@ If we want to use the directive like this:
 we would need to define it this way:
 
 ```javascript
-  directive.scope = {
-    username: '@username'
-  };
-  directive.link = function(scope, element, attrs){
-    scope.user = users.getUser(scope.username);
-  };
+  .controller('NgcUserDirectiveCtrl', function (users) {
+    var vm = this;
+    vm.user = users.getUser(vm.username);
+    ...
+  })
+  
+  .directive('ngcUser', function () {
+    return {
+      ...
+      scope: {
+        username: '@username'
+      },
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
+  ...
 ```
 
 In this case the value of `username` argument is placed on the directive's
@@ -285,9 +323,40 @@ If the name of the attribute matches the name of the scope property, we can
 also just use "@" by itself:
 
 ```javascript
-  directive.scope = {
+  scope: {
     username: '@'
-  };
+  }
+```
+
+## Attribute Processing with Controllers
+
+Alternativly, we can use $attrs provider to get access to the attribute values
+specified on the directive's element.
+
+```html
+  <ngc-user username="alice"></ngc-user>
+```
+
+and
+
+```javascript
+  .controller('NgcUserDirectiveCtrl', function ($attrs, users) {
+    var vm = this;
+    vm.user = users.getUser($attrs.username);
+    ...
+  })
+
+  .directive('ngcUser', function () {
+    return {
+      ...
+      scope: {},
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
+  ...
 ```
 
 ## External 2-way Binding
@@ -309,12 +378,25 @@ the scope the directive gets to see.
 We'll then need to setup the directive as follows:
 
 ```javascript
-  directive.scope = {
-    username: '=username'
-  };
-  directive.link = function(scope, element, attrs){
-    scope.user = users.getUser(scope.username);
-  };
+  .controller('NgcUserDirectiveCtrl', function (users) {
+    var vm = this;
+    vm.user = users.getUser(vm.username);
+    ...
+  })
+  
+  .directive('ngcUser', function () {
+    return {
+      ...
+      scope: {
+        username: '=username'
+      },
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
+  ...
 ```
 
 Again, if the name of the attribute and the scope property match, we can just
@@ -342,15 +424,25 @@ get called.
 To achieve this, we would then define the directive as follows:
 
 ```javascript
+  .controller('NgcUserDirectiveCtrl', function () {
+    var vm = this;
+    vm.fireBan();
+    ...
+  })
+  
+  .directive('ngcUser', function () {
+    return {
+      ...
+      scope: {
+        fireBan: '&onBan'
+      },
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
 
-  directive.scope = {
-    fireBan: '&onBan'
-  };
-  directive.link = function(scope, element, attrs){
-    ...
-    scope.fireBan();
-    ...
-  };
+  ...
 ```
 
 When `scope.fireBan()` gets called from within the directive, this will
@@ -365,19 +457,6 @@ subscribe approach:
   users.onBan(handleBan);
 ```
 
-## Attribute Processing
-
-It's important to remember, though, that we do not _have_ to map attributes to
-directive's scope elements. Instead, our directive can just access attribute
-values directly from the `attrs` argument:
-
-```javascript
-  directive.scope = {};
-  directive.link = function(scope, element, attrs){
-    var username = attrs.username;
-  };
-```
-
 ## Parsing Expressions
 
 One neat thing we can do is use an attribute to provide an expression that
@@ -390,43 +469,31 @@ would be used by the directive:
 We set up the directive as follows:
 
 ```javascript
-  directive.link = function(scope, element, attrs) {
-    var userData = users.getUser(scope.username);
-    var getCost = $parse(attrs.cost);
-    scope.cost = getCost({
+  .controller('NgcUserDirectiveCtrl', function ($attrs, $parse, users) {
+    var vm = this;
+    var userData = users.getUser(vm.username);
+
+    var getCost = $parse($attrs.cost);
+    vm.cost = getCost({
       rate: userData.rate,
-      hours: userData.cost,
-      discount: userData.discount
+      hours: userData.hours
     });
-  };
-```
+    ...
+  })
 
-## Using the Compile Function
-
-You will rarely need to use directive's `compile()` and most examples of using
-it a rather contrived. Let's consider one use case for completeness.
-
-Suppose we want to clone the widget created by the directive a number of
-times, where the number would be specified in an attribute:
-
-```html
-  <ngc-user username="{{user}}" cost="hours * rate" repeat="5"></ngc-user>
-```
-
-We can achieve this by providing a compile function which will handle the
-cloning:
-
-```javascript
-  directive.compile = function (tElement, tAttrs) {
-    var wrapper = angular.element('<div></div>');
-    for (var i=0; i<tAttrs.repeat; i++) {
-      wrapper.append(tElement.clone());
-    }
-    tElement.replaceWith(wrapper);
-    return function (scope, iElement, iAttrs) {
+  .directive('ngcUser', function () {
+    return {
       ...
-      };
+      scope: {
+        username: '=username'
+      },
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
     };
+  })
+
+  ...
 ```
 
 ## Directives and Services
@@ -446,8 +513,28 @@ it, though, the best approach is usually to capture the element in a directive
 and then offload the actual manipulation to a service dedicated to this:
 
 ```javascript
-  directive.link = function(scope, element, attrs) {
-    scope.scroller = scroller.makeScroller(
-    attrs.id, element);
+.controller('NgcUserDirectiveCtrl', function ($attrs, $element) {
+  var vm = this;
+  vm.scroller = scroller.makeScroller($attrs.id, $element);
+})
+
+.directive('ngcUser', function () {
+  return {
+    ...
+    scope: {},
+    controller: 'NgcUserDirectiveCtrl',
+    controllerAs: 'ngcUserCtrl',
+    bindToController: true
   };
+})
+
+...
 ```
+
+## Using Link and Compile Function
+
+In the vast majority of the cases it is recommended to use controllers in your
+directive implementation as opposed to `link()` or `compile()` functions.
+
+Both functions and the rationale behind using them are explored in 
+Section 23 - Advanced Directives
