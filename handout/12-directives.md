@@ -520,9 +520,7 @@ and then offload the actual manipulation to a service dedicated to this:
 
 .directive('ngcUser', function () {
   return {
-    restrict: 'E',
-    replace: true,
-    template: '<span>Hello, {{ userDisplayName }}.</span>',
+    ...
     scope: {},
     controller: 'NgcUserDirectiveCtrl',
     controllerAs: 'ngcUserCtrl',
