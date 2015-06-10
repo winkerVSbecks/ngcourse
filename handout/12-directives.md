@@ -422,10 +422,10 @@ We set up the directive as follows:
     var userData = users.getUser(vm.username);
 
     var getCost = $parse($attrs.cost);
-      vm.cost = getCost({
-        rate: userData.rate,
-        hours: userData.hours
-      });
+    vm.cost = getCost({
+      rate: userData.rate,
+      hours: userData.hours
+    });
     ...
   })
   ...
@@ -474,8 +474,8 @@ convention, we call them "scope", "element" and "attrs".
 
 ## Dependency Injection and Link Function
 
-If we do want to do dependency injection with a directive (and we usually do),
-we can do that using the function defining the directive:
+If we do want to do dependency injection with a directive that uses link function
+(and we usually do), we can do that using the function defining the directive:
 
 ```javascript
   .directive('ngcUser',
