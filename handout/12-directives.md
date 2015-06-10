@@ -207,10 +207,10 @@ to implement a controller for it:
 
   ...
 ```
-A few things are going on here, controller: 'NgcUserDirectiveCtrl' provides a 
+A few things are going on here, `controller: 'NgcUserDirectiveCtrl'` provides a 
 reference to the controller function defined on the module. 
 
-Then controllerAs: 'ngcUserCtrl' gives a name to controller's scope so as to 
+Then `controllerAs: 'ngcUserCtrl'` gives a name to controller's scope so as to 
 refer to its properties using this name within the template.
 
 i.e.
@@ -219,10 +219,11 @@ i.e.
   <span>Hello, {{ ngcUserCtrl.userDisplayName }}.</span>
 ```
 
-Finally, the bindToController: true, binds the component's properties to the 
+Finally, the `bindToController: true`, binds the component's properties to the 
 controller rather than the scope. 
 
-In the above example the controller is provided by name, but it is also
+
+Note that in the above example the controller is provided by name, but it is also
 possible to provide the controller function inline
 
 ```javascript
