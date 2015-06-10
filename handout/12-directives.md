@@ -187,27 +187,25 @@ Create a new file, `app/core/users/user-directive.js`:
 To make the directive do anything remotely interesting we would usually need
 to implement a controller for it:
 
-```javascript
-  
+```javascript  
   .controller('NgcUserDirectiveCtrl', function () {
     var vm = this;
     vm.userDisplayName = 'Some Name';
   })
 
   .directive('ngcUser', function () {
-    var directive = {
+    return {
       restrict: 'E',
       replace: true,
       scope: {},
-      templateUrl: '/app/components/users/user.html'
+      templateUrl: '/app/components/users/user.html',
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
     };
-
-    directive.controller = 'NgcUserDirectiveCtrl';
-    directive.controllerAs = 'ngcUserCtrl';
-    directive.bindToController = true;
-
-    return directive;
   })
+
+  ...
 ```
 A few things are going on here, controller: 'NgcUserDirectiveCtrl' provides a 
 reference to the controller function defined on the module. 
@@ -218,11 +216,38 @@ refer to its properties using this name within the template.
 i.e.
 
 ```html
-  <span class="external-template">Hello, {{ ngcUserCtrl.userDisplayName }}.</span>
+  <span>Hello, {{ ngcUserCtrl.userDisplayName }}.</span>
 ```
 
-Finally, the bindToController = true, binds the component's properties to the 
+Finally, the bindToController: true, binds the component's properties to the 
 controller rather than the scope. 
+
+In the above example the controller is provided by name, but it is also
+possible to provide the controller function inline
+
+```javascript
+  ...
+
+  .directive('ngcUser', function () {
+    return {
+      restrict: 'E',
+      replace: true,
+      scope: {},
+      templateUrl: '/app/components/users/user.html',
+      controller: function () {
+        var vm = this;
+        vm.userDisplayName = 'Some Name';
+      },
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
+  ...
+```
+
+In this case you end up hiding your controller which makes it harder to
+call in unit tests.
 
 ## External Communication: Services
 
@@ -240,13 +265,15 @@ services at least for a large part of that communication.
   })
 
   .directive('ngcUser', function () {
+    return {
       ...
-      directive.controller = 'NgcUserDirectiveCtrl';
-      directive.controllerAs = 'ngcUserCtrl';
-      directive.bindToController = true;
-      ...
-    }
-  )
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
+  ...
 ```
 
 We can use everything we learned so far about dependency injection to inject
@@ -271,13 +298,19 @@ we would need to define it this way:
     vm.user = users.getUser(vm.username);
     ...
   })
-  ...
-  directive.scope = {
-    username: '@username'
-  };
-  directive.controller = 'NgcUserDirectiveCtrl';
-  directive.controllerAs = 'ngcUserCtrl';
-  directive.bindToController = true;
+  
+  .directive('ngcUser', function () {
+    return {
+      ...
+      scope: {
+        username: '@username'
+      },
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
   ...
 ```
 
@@ -289,9 +322,9 @@ If the name of the attribute matches the name of the scope property, we can
 also just use "@" by itself:
 
 ```javascript
-  directive.scope = {
+  scope: {
     username: '@'
-  };
+  }
 ```
 
 ## Attribute Processing with Controllers
@@ -311,11 +344,17 @@ and
     vm.user = users.getUser($attrs.username);
     ...
   })
-  ...
-  directive.scope = {};
-  directive.controller = 'NgcUserDirectiveCtrl';
-  directive.controllerAs = 'ngcUserCtrl';
-  directive.bindToController = true;
+
+  .directive('ngcUser', function () {
+    return {
+      ...
+      scope: {},
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
   ...
 ```
 
@@ -343,13 +382,19 @@ We'll then need to setup the directive as follows:
     vm.user = users.getUser(vm.username);
     ...
   })
-  ...
-  directive.scope = {
-    username: '=username'
-  };
-  directive.controller = 'NgcUserDirectiveCtrl';
-  directive.controllerAs = 'ngcUserCtrl';
-  directive.bindToController = true;
+  
+  .directive('ngcUser', function () {
+    return {
+      ...
+      scope: {
+        username: '=username'
+      },
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
   ...
 ```
 
@@ -383,13 +428,19 @@ To achieve this, we would then define the directive as follows:
     vm.fireBan();
     ...
   })
-  ...
-  directive.scope = {
-    fireBan: '&onBan'
-  };
-  directive.controller = 'NgcUserDirectiveCtrl';
-  directive.controllerAs = 'ngcUserCtrl';
-  directive.bindToController = true;
+  
+  .directive('ngcUser', function () {
+    return {
+      ...
+      scope: {
+        fireBan: '&onBan'
+      },
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
   ...
 ```
 
@@ -428,13 +479,19 @@ We set up the directive as follows:
     });
     ...
   })
-  ...
-  directive.scope = {
-    username: '=username'
-  };
-  directive.controller = 'NgcUserDirectiveCtrl';
-  directive.controllerAs = 'ngcUserCtrl';
-  directive.bindToController = true;
+
+  .directive('ngcUser', function () {
+    return {
+      ...
+      scope: {
+        username: '=username'
+      },
+      controller: 'NgcUserDirectiveCtrl',
+      controllerAs:'ngcUserCtrl',
+      bindToController: true
+    };
+  })
+
   ...
 ```
 
@@ -528,6 +585,16 @@ cloning:
       };
     };
 ```
+
+## Using controller vs. link vs. compile Functions
+
+In the vast majority of the cases it is recommended to use controllers in your
+directive implementation as opposed to `link()` or `compile()` functions.
+
+The main reasons behind this rationale is that controllers allow you to provide
+a named scope for your directives using the controllerAs syntax, are easier to
+unit test and conform to existing development practices established in earlier
+chapters. 
 
 ## Directives and Services
 
