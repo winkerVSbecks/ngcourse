@@ -530,3 +530,11 @@ and then offload the actual manipulation to a service dedicated to this:
 
 ...
 ```
+
+## Using Link and Compile Function
+
+In the vast majority of the cases it is recommended to use controllers in your
+directive implementation as opposed to `link()` or `compile()` functions.
+
+Both functions and the rationale behind using them are explored in 
+Section 23 - Advanced Directives
