@@ -9,6 +9,11 @@ angular.module('ngcourse.router', [
   $locationProvider.html5Mode(false);
 
   $stateProvider
+    .state('home', {
+      url: '/',
+      controller: 'MainCtrl as main',
+      templateUrl: '/app/components/main/main.html'
+    })
     .state('tasks', {
       url: '/tasks',
       controller: 'TaskListCtrl as taskList',
@@ -35,7 +40,7 @@ angular.module('ngcourse.router', [
       template: 'my account'
     });
 
-  $urlRouterProvider.otherwise('/tasks');
+  $urlRouterProvider.otherwise('/');
 
 })
 
