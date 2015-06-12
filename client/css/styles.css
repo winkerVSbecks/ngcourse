@@ -3,6 +3,10 @@ body {
   font-family: Dosis, Verdana, Geneva, sans-serif;
 }
 
+.grey {
+  background-color: grey;
+}
+
 .login {
   border: 1px solid #ddd;
   padding: 20px;
