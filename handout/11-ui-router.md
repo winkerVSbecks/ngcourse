@@ -91,8 +91,8 @@ When an AngularJS application starts up, it goes through several 'phases':
 0. Angular executes your code that contains calls to methods such as
   `.service()`, `.constant()`, `.config()`, etc. However, at this point all of
   those entities are only defined. They are not yet instantiated. In other
-  words, Angular takes note of the fact that will want to create a service
-  'tasks' using the provided function. It does _not_ however, call this
+  words, Angular takes note of the fact that it will want to create a 'tasks'
+  service using the provided function. It does _not_ however, call that
   function at this point.
 
 1. Constants defined in `.constant()` blocks are set.
