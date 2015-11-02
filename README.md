@@ -1,6 +1,6 @@
-# Angular Course from rangle.io
+# Angular Course from Rangle.io
 
-This repository contains handout materials and code for rangle.io's AngularJS
+This repository contains handout materials and code for Rangle.io's AngularJS
 training course. This is meant to be used as a part of the course, which is
 normally offered as a 2-3 day event. See [http://rangle.io/javascript-training.html](http://rangle.io/javascript-training.html) for more
 information.

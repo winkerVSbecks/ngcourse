@@ -2,7 +2,7 @@
 
 Angular is the leading open source JavaScript application framework backed by
 Google. This course ("ngCourse") provides an introduction to AngularJS based
-on our experience at [rangle.io](http://rangle.io).
+on our experience at [Rangle.io](http://rangle.io).
 
 ## AngularJS, the Good Parts
 
@@ -18,7 +18,7 @@ Crockford goes on to point out that JavaScript also has lots of _good_ parts whi
 can make it a great language to use. The key is avoiding the bad parts.
 
 (Crockford's book should be required reading for all JavaScript developers. At
-rangle.io, we keep a few extra copies on hand on the off-chance that one of our
+Rangle.io, we keep a few extra copies on hand on the off-chance that one of our
 developers has not already read this great book.)
 
 What Crockford says about programming languages applies equally well to

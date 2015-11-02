@@ -7,7 +7,7 @@ which makes it easy to assemble common tasks.
 
 ## Why Use Gulp?
 
-A few features of Gulp make it our preferred automation tool at rangle.io.
+A few features of Gulp make it our preferred automation tool at Rangle.io.
 
 __Chained Tasks__: Gulp makes it easy to chain simple tasks into more complex
 workflows. This works well when trying to build a web app for a production
