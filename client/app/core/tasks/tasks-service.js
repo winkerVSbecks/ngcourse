@@ -17,5 +17,16 @@ angular.module('ngcourse.tasks', [])
       });
   };
 
+  service.getTaskById = function (_id) {
+    return service.getTasks()
+      .then(function(tasks) {
+
+        return tasks.find(function(task) {
+          return task._id === _id;
+        });
+
+      });
+  };
+
   return service;
 });

@@ -7,6 +7,10 @@ angular.module('ngcourse')
   var vm = this;
   vm.tasks = [];
 
+  vm.getUserDisplayName = function(name){
+    return name;
+  };
+
   tasks.getTasks()
     .then(function(tasks) {
       vm.tasks = tasks;

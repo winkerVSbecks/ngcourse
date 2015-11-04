@@ -8,10 +8,14 @@ angular.module('ngcourse.server', [])
   var service = {};
 
   service.get = function (path) {
-    return $http.get(API_BASE_URL + path)
-      .then(function(response) {
-        return response.data;
-      });
+
+    var dataPromise =  $http.get(API_BASE_URL + path)
+    .then(function(response) {
+      return response.data;
+    });
+
+    return dataPromise;
+
   };
 
   return service;
